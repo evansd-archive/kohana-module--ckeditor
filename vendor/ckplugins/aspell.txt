@@ -1,0 +1,4 @@
+Downloaded from:
+http://cksource.com/forums/viewtopic.php?f=11&t=15893
+
+Changed $lang from 'en_US' to 'en_GB' in aspell/spellerpages/server-scripts/spellchecker.php
