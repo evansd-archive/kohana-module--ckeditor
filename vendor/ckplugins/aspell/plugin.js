@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Aspell plug-in for CKeditor 3.0
  * Ported from FCKeditor 2.x by Christian Boisjoli, SilenceIT
  * Requires toolbar, aspell

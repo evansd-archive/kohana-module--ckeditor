@@ -1,1 +1,1 @@
-﻿var testVar = 'Test!';
+var testVar = 'Test!';
