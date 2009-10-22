@@ -10,6 +10,7 @@ window.addEvent('domready', function() {
 		CKEDITOR.replace(el, {
 			// Turn off custom config so it doesn't attempt to load config file
 			customConfig : '',
+			width: size.y,
 			height: size.y 
 		});
 	});
