@@ -10,6 +10,17 @@ var CKEDITOR_BASEPATH = "<?php echo url::site('assets/ckeditor');?>/";
 //= requires "<?php echo substr(Kohana::find_file('vendor', 'ckeditor/ckeditor', TRUE, 'js'), 0, -3);?>"
 
 
+
+// -------------------------------
+// Language Config
+// -------------------------------
+
+CKEDITOR.config.language = 'en-uk';
+
+//= requires "<?php echo substr(Kohana::find_file('vendor', 'ckeditor/lang/en-uk', TRUE, 'js'), 0, -3);?>"
+
+
+
 // -------------------------------
 // Default Config
 // -------------------------------
