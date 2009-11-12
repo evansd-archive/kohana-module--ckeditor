@@ -6,7 +6,7 @@ header('Content-type: text/html; charset=utf-8');
 //$aspell_prog	= '"C:\Program Files\Aspell\bin\aspell.exe"';	// by FredCK (for Windows)
 $aspell_prog	= 'aspell';										// by FredCK (for Linux)
 
-$lang			= 'en_US';
+$lang			= 'en_GB';
 $aspell_opts	= "-a --lang=$lang --encoding=utf-8 -H --rem-sgml-check=alt";		// by FredCK
 
 //$tempfiledir	= "./";
