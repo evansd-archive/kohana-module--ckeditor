@@ -1,4 +1,11 @@
-Downloaded from:
-http://cksource.com/forums/viewtopic.php?f=11&t=15893
+Downloaded on 2009-12-14 from:
+  http://cksource.com/forums/viewtopic.php?f=11&t=15893
 
-Changed $lang from 'en_US' to 'en_GB' in aspell/spellerpages/server-scripts/spellchecker.php
+Changes to original:
+ * Commented out lines 6 & 7, so $aspell_prog variable is not set
+ * Commented out line 9, so $lang variable is not set
+
+Both of these are now set by the proxy controller, ckeditor_aspell_plugin_proxy,
+according to settings in the 'ckeditor' Kohana config file.
+
+

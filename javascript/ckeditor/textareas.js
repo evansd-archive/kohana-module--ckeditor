@@ -7,11 +7,17 @@
 window.addEvent('domready', function() {
 	document.getElements('textarea.richtexteditor').each(function(el) {
 		var size = el.getSize();
-		CKEDITOR.replace(el, {
+		
+		var config = {
 			// Turn off custom config so it doesn't attempt to load config file
 			customConfig : '',
-			width: size.y,
 			height: size.y 
-		});
+		};
+		
+		if( ! el.hasClass('richtexteditor-fullwidth')) {
+			config.width = size.y;
+		}
+		
+		CKEDITOR.replace(el, config);
 	});
 });
