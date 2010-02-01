@@ -20,4 +20,4 @@
 
 
 CKEDITOR.plugins.addExternal('aspell', "<?php echo url::site('assets/ckplugins/aspell');?>/");
-CKEDITOR.config.extraPlugins = 'aspell';
+CKEDITOR.config.extraPlugins = (CKEDITOR.config.extraPlugins ? (CKEDITOR.config.extraPlugins + ',') : '' ) + 'aspell';
