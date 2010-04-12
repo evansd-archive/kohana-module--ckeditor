@@ -13,4 +13,4 @@
 
 CKEDITOR.config.language = '<?php echo Kohana::config("ckeditor.lang");?>';
 
-//= requires "<?php echo substr(Kohana::find_file('vendor', 'ckeditor/lang/'.Kohana::config("ckeditor.lang"), TRUE, 'js'), 0, -3);?>"
+//= requires "../../vendor/ckeditor/lang/<?php echo Kohana::config('ckeditor.lang');?>"

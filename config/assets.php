@@ -5,8 +5,8 @@
 $config['ck(editor|plugins)/.+\.(js|css|html|png|gif|xml)'] = array
 (
 	'route'       => 'vendor/$0',
-	'cache'       => IN_PRODUCTION,
 	'expiry_time' => 3600
 );
 
-
+// Required for Kohana 3 compatibility
+return $config;

@@ -18,6 +18,6 @@
  *   vendor/ckplugins/aspell/aspell.txt
  */
 
-//= requires "<?php echo substr(Kohana::find_file('vendor', 'ckplugins/aspell/plugin', TRUE, 'js'), 0, -3);?>"
+//= requires "../../vendor/ckplugins/aspell/plugin"
 CKEDITOR.plugins.addExternal('aspell', "<?php echo url::site('assets/ckplugins/aspell');?>/");
 CKEDITOR.config.extraPlugins = (CKEDITOR.config.extraPlugins ? (CKEDITOR.config.extraPlugins + ',') : '' ) + 'aspell';
