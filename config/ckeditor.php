@@ -1,5 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+// Used by both Kohana 2 and Kohana 3 
+// ($config var for Kohana 2 and return statement for Kohana 3)
+
 // Get current locale language
 list($lang) = explode('.', setlocale(LC_CTYPE, 0), 2);
 
@@ -21,5 +24,4 @@ $config['aspell'] = array
 	             : 'aspell'
 );
 
-// Required for Kohana 3 compatibility
 return $config;
