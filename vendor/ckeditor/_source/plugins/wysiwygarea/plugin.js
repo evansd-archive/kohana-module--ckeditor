@@ -478,7 +478,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								// the focus.
 								if ( evt.data.getTarget().equals( htmlElement ) )
 								{
-									CKEDITOR.env.gecko && blinkCursor();
+									if ( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 )
+										blinkCursor();
 									focusGrabber.focus();
 								}
 							} );
@@ -492,7 +493,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						domWindow.on( 'focus', function()
 							{
 								var doc = editor.document;
-								if ( CKEDITOR.env.gecko || CKEDITOR.env.opera )
+
+								if ( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 )
+									blinkCursor();
+								else if ( CKEDITOR.env.opera )
 									doc.getBody().focus();
 								else if ( CKEDITOR.env.webkit )
 								{
@@ -707,8 +711,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										config.docType +
 										'<html dir="' + config.contentsLangDirection + '"' +
 											' lang="' + ( config.contentsLanguage || editor.langCode ) + '">' +
-										'<title>' + frameLabel + '</title>' +
 										'<head>' +
+											'<title>' + frameLabel + '</title>' +
 											baseTag +
 											headExtra +
 										'</head>' +
@@ -815,17 +819,41 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			// IE8 stricts mode doesn't have 'contentEditable' in effect
 			// on element unless it has layout. (#5562)
-			if ( CKEDITOR.env.ie8 )
+			if ( CKEDITOR.env.ie8Compat )
+			{
 				editor.addCss( 'html.CSS1Compat [contenteditable=false]{ min-height:0 !important;}' );
 
+				var selectors = [];
+				for ( var tag in CKEDITOR.dtd.$removeEmpty )
+					selectors.push( 'html.CSS1Compat ' + tag + '[contenteditable=false]' );
+				editor.addCss( selectors.join( ',' ) + '{ display:inline-block;}' );
+			}
+
 			// Switch on design mode for a short while and close it after then.
-			function blinkCursor()
+			function blinkCursor( retry )
 			{
-				editor.document.$.designMode = 'on';
-				setTimeout( function ()
-				{
-					editor.document.$.designMode = 'off';
-				}, 50 );
+				CKEDITOR.tools.tryThese(
+					function()
+					{
+						editor.document.$.designMode = 'on';
+						setTimeout( function ()
+						{
+							editor.document.$.designMode = 'off';
+							editor.document.getBody().focus();
+						}, 50 );
+					},
+					function()
+					{
+						// The above call is known to fail when parent DOM
+						// tree layout changes may break design mode. (#5782)
+						// Refresh the 'contentEditable' is a cue to this.
+						editor.document.$.designMode = 'off';
+						var body = editor.document.getBody();
+						body.setAttribute( 'contentEditable', false );
+						body.setAttribute( 'contentEditable', true );
+						// Try it again once..
+						!retry && blinkCursor( 1 );
+					});
 			}
 
 			// Create an invisible element to grab focus.
