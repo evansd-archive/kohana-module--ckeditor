@@ -1,11 +1,6 @@
 Downloaded on 2009-12-14 from:
   http://cksource.com/forums/viewtopic.php?f=11&t=15893
 
-Changes to original:
- * Commented out lines 6 & 7, so $aspell_prog variable is not set
- * Commented out line 9, so $lang variable is not set
-
-Both of these are now set by the proxy controller, ckeditor_aspell_plugin_proxy,
-according to settings in the 'ckeditor' Kohana config file.
+Use `git whatchanged vendor/ckplugins/aspell` to see the diffs
 
 
