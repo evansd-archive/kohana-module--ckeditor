@@ -2,7 +2,8 @@
 if (DIRECTORY_SEPARATOR !== '/')
 {
 	echo "WARNING: This script won't work on Windows.\n";
-	echo "You'll have to manually extract the latest version of CKEditor into vendor/ckeditor and then run strip-byte-order-marks.php\n";
+	echo "You'll have to manually extract the latest version of CKEditor ";
+	echo "into vendor/ckeditor and then run strip-byte-order-marks.php\n";
 	exit(1);
 }
 
@@ -21,22 +22,13 @@ if ( ! $found)
 	die('Sorry, no CKEditor download links could be found on '.$ckeditor_url);
 }
 
-// Find the latest version
-foreach($matches as $match)
-{
-	$version = $match[2];
-	$version_parts = explode('.', $match[2]) + array(0, 0, 0);
-	$version_num = ($version_parts[0] * 1000000) + ($version_parts[1] * 1000) + $version_parts[2];
-	
-	if ( ! isset($latest_version_num) OR $version_num > $latest_version_num)
-	{
-		$latest_version = $version;
-		$latest_version_num = $version_num;
-		$latest_url = $match[1];
-	}
-}
+// Sort by version
+usort($matches, create_function('$a, $b', 'return version_compare($b[2], $a[2]);'));
 
-echo "Downloading CKEditor version $latest_version from $latest_url\n";
+// Get the latest
+list($_, $url, $version) = reset($matches);
+
+echo "Downloading CKEditor version $version from $url\n";
 
 $success = FALSE;
 
@@ -47,7 +39,7 @@ if($status == 0)
 {
 	// Download the file
 	$download = $tmpdir.'/latest.tar.gz';
-	passthru('wget '.escapeshellarg($latest_url).' -O '.escapeshellarg($download), $status);
+	passthru('wget '.escapeshellarg($url).' -O '.escapeshellarg($download), $status);
 
 	if($status == 0)
 	{
