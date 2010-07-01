@@ -157,20 +157,17 @@ function writeBody() {
 			for( var i = 0; i < orig.length; i++ ) {
 				// find the position of the current misspelled word,
 				// starting at the last misspelled word.
-				// and keep looking if it's a substring of another word
-				do {
-					begin_idx = wordtxt.indexOf( orig[i], end_idx );
-					end_idx = begin_idx + orig[i].length;
-					// word not found? messed up!
-					if( begin_idx == -1 ) break;
-					// look at the characters immediately before and after
-					// the word. If they are word characters we'll keep looking.
-					var before_char = wordtxt.charAt( begin_idx - 1 );
-					var after_char = wordtxt.charAt( end_idx );
-				} while (
-					this._isWordChar( before_char )
-					|| this._isWordChar( after_char )
-				);
+				
+				// Make sure we only match words that aren't part of tags
+				var escapedWord = orig[i].replace(/([.*+?^${}()|[\]\/\\])/g, '\\$1');
+				var wordRegex = new RegExp('\\b' + escapedWord + '\\b(?!([^<]+)?>)', 'g');
+				wordRegex.lastIndex = end_idx;
+				
+				// word not found? messed up!
+				if ( ! wordRegex.test(wordtxt)) break;
+				
+				end_idx = wordRegex.lastIndex;
+				begin_idx = end_idx - orig[i].length;
 
 				// keep track of its position in the original text.
 				this.indexes[txtid][i] = begin_idx;
