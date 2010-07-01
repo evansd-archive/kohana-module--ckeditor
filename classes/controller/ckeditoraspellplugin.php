@@ -29,6 +29,6 @@ class Controller_CKEditorAspellPlugin extends Controller
 			'php'
 		);
 		
-		$this->request->reponse = ob_get_clean();
+		$this->request->response = ob_get_clean();
 	}
 }
