@@ -24,8 +24,14 @@ $input_separator = "A";
 function print_textinputs_var() {
 	global $textinputs;
 	foreach( $textinputs as $key=>$val ) {
-		# $val = str_replace( "'", "%27", $val );
-		echo "textinputs[$key] = decodeURIComponent(\"" . $val . "\");\n";
+		if ( ! preg_match('/[^A-Za-z0-9_]/', $key) AND strpos('"', $val) === FALSE)
+		{
+			echo "textinputs[$key] = decodeURIComponent(\"$val\");\n";
+		}
+		else
+		{
+			error_handler('Invalid characters in input');
+		}
 	}
 }
 
