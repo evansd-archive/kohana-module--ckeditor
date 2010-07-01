@@ -77,8 +77,9 @@ CKEDITOR.dialog.add('aspell', function( editor )
 		{
 			editor.focus();
 			editor.fire('saveSnapshot'); // Best way I could find to trigger undo steps.
-			dialog.getParentEditor().setData(document.getElementById(textareaId).value);
-			editor.fire('saveSnapshot'); // But there's a blank one between!
+			dialog.getParentEditor().setData(document.getElementById(textareaId).value, function () {
+                 editor.fire('saveSnapshot'); // But there's a blank one between!
+            });
 		}
 		dialog.hide();
 	}
