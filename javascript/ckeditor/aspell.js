@@ -21,3 +21,6 @@
 //= requires "../../vendor/ckplugins/aspell/plugin"
 CKEDITOR.plugins.addExternal('aspell', "<?php echo url::site('assets/ckplugins/aspell');?>/");
 CKEDITOR.config.extraPlugins = (CKEDITOR.config.extraPlugins ? (CKEDITOR.config.extraPlugins + ',') : '' ) + 'aspell';
+
+// Remove the "Check as You Type" plugin to prevent it connecting to the external web-service
+CKEDITOR.config.removePlugins = (CKEDITOR.config.removePlugins ? (CKEDITOR.config.removePlugins + ',') : '' ) + 'scayt';
