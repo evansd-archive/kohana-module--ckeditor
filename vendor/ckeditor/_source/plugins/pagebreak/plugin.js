@@ -32,10 +32,10 @@ CKEDITOR.plugins.add( 'pagebreak',
 				'clear: both;' +
 				'display: block;' +
 				'float: none;' +
-				'width:100%;_width:99.9%;' +
+				'width:100% !important; _width:99.9% !important;' +
 				'border-top: #999999 1px dotted;' +
 				'border-bottom: #999999 1px dotted;' +
-				'height: 5px;' +
+				'height: 5px !important;' +
 				'page-break-after: always;' +
 
 			'}' );
@@ -100,6 +100,11 @@ CKEDITOR.plugins.pagebreakCmd =
 				range.moveToPosition( breakObject, CKEDITOR.POSITION_AFTER_END );
 				range.select();
 			}
+
+			var previous = breakObject.getPrevious();
+
+			if ( CKEDITOR.dtd[ previous.getName() ].div )
+				breakObject.move( previous );
 		}
 
 		editor.fire( 'saveSnapshot' );

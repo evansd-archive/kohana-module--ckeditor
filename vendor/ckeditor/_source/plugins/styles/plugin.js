@@ -60,13 +60,13 @@ CKEDITOR.editor.prototype.attachStyleStateChange = function( style, callback )
 
 						// Save the current state, so it can be compared next
 						// time.
-						callback.state !== currentState;
+						callback.state = currentState;
 					}
 				}
 			});
 	}
 
-	// Save the callback info, so it can be checked on the next occurence of
+	// Save the callback info, so it can be checked on the next occurrence of
 	// selectionChange.
 	styleStateChangeCallbacks.push( { style : style, fn : callback } );
 };
@@ -180,6 +180,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 			return false;
 		},
 
+		/**
+		 * Whether this style can be applied at the element path.
+ 		 * @param elementPath
+		 */
 		checkApplicable : function( elementPath )
 		{
 			switch ( this.type )
@@ -222,6 +226,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 							continue;
 
 						var elementAttr = element.getAttribute( attName ) || '';
+
+						// Special treatment for 'style' attribute is required.
 						if ( attName == 'style' ?
 							compareCssText( attribs[ attName ], normalizeCssText( elementAttr, false ) )
 							: attribs[ attName ] == elementAttr  )
@@ -768,13 +774,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 	}
 
+	var nonWhitespaces = CKEDITOR.dom.walker.whitespaces( true );
 	/**
 	 * Merge a <pre> block with a previous sibling if available.
 	 */
 	function mergePre( preBlock )
 	{
 		var previousBlock;
-		if ( !( ( previousBlock = preBlock.getPreviousSourceNode( true, CKEDITOR.NODE_ELEMENT ) )
+		if ( !( ( previousBlock = preBlock.getPrevious( nonWhitespaces ) )
 				 && previousBlock.is
 				 && previousBlock.is( 'pre') ) )
 			return;
@@ -1198,6 +1205,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		return overrides;
 	}
 
+	// Make the comparison of attribute value easier by standardizing it.
 	function normalizeProperty( name, value, isStyle )
 	{
 		var temp = new CKEDITOR.dom.element( 'span' );
@@ -1205,6 +1213,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		return temp[ isStyle ? 'getStyle' : 'getAttribute' ]( name );
 	}
 
+	// Make the comparison of style text easier by standardizing it.
 	function normalizeCssText( unparsedCssText, nativeNormalize )
 	{
 		var styleText;
@@ -1240,14 +1249,18 @@ CKEDITOR.STYLE_OBJECT = 3;
 		return retval;
 	}
 
+	/**
+	 * Compare two bunch of styles, with the speciality that value 'inherit'
+	 * is treated as a wildcard which will match any value.
+	 * @param {Object|String} source
+	 * @param {Object|String} target
+	 */
 	function compareCssText( source, target )
 	{
 		typeof source == 'string' && ( source = parseStyleText( source ) );
 		typeof target == 'string' && ( target = parseStyleText( target ) );
 		for( var name in source )
 		{
-			// Value 'inherit'  is treated as a wildcard,
-			// which will match any value.
 			if ( !( name in target &&
 					( target[ name ] == source[ name ]
 						|| source[ name ] == 'inherit'

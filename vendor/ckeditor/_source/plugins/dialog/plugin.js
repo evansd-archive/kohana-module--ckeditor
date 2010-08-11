@@ -168,6 +168,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		{
 			this.on( 'ok', function( evt )
 				{
+					// Dialog confirm might probably introduce content changes (#5415).
+					editor.fire( 'saveSnapshot' );
+					setTimeout( function () { editor.fire( 'saveSnapshot' ); }, 0 );
 					if ( definition.onOk.call( this, evt ) === false )
 						evt.data.hide = false;
 				});
@@ -404,7 +407,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				setupFocus();
 
 				if ( editor.config.dialog_startupFocusTab
-					&& me._.tabIdList.length > 1 )
+					&& me._.pageCount > 1 )
 				{
 					me._.tabBarMode = true;
 					me._.tabs[ me._.currentTabId ][ 0 ].focus();
@@ -938,6 +941,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 */
 		selectPage : function( id )
 		{
+			if ( this._.currentTabId == id )
+				return;
+
+			// Returning true means that the event has been canceled
+			if ( this.fire( 'selectPage', { page : id, currentPage : this._.currentTabId } ) === true )
+				return;
+
 			// Hide the non-selected tabs and pages.
 			for ( var i in this._.tabs )
 			{
@@ -2947,4 +2957,12 @@ CKEDITOR.plugins.add( 'dialog',
  *		is being loaded.
  * @param {CKEDITOR.editor} editor The editor instance that will use the
  *		dialog.
+ */
+
+/**
+ * Fired when a tab is going to be selected in a dialog
+ * @name dialog#selectPage
+ * @event
+ * @param String page The id of the page that it's gonna be selected.
+ * @param String currentPage The id of the current page.
  */

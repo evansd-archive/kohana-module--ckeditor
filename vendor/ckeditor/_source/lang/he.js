@@ -196,6 +196,7 @@ CKEDITOR.lang['he'] =
 		bulletedTitle		: 'תכונות רשימת תבליטים',
 		type				: 'סוג',
 		start				: 'תחילת מספור',
+		validateStartNumber				:'שדה תחילת המספור חייב להכיל מספר שלם.',
 		circle				: 'עיגול ריק',
 		disc				: 'עיגול מלא',
 		square				: 'ריבוע',
@@ -259,7 +260,7 @@ CKEDITOR.lang['he'] =
 		invalidRows		: 'שדה מספר השורות חייב להיות מספר גדול מ 0.',
 		invalidCols		: 'שדה מספר העמודות חייב להיות מספר גדול מ 0.',
 		invalidBorder	: 'שדה גודל המסגרת חייב להיות מספר.',
-		invalidWidth	: 'שדה רוחב הטבלה חייב להיות רוחב.',
+		invalidWidth	: 'שדה רוחב הטבלה חייב להיות מספר.',
 		invalidHeight	: 'שדה גובה הטבלה חייב להיות מספר.',
 		invalidCellSpacing	: 'שדה ריווח התאים חייב להיות מספר.',
 		invalidCellPadding	: 'שדה ריפוד התאים חייב להיות מספר.',
@@ -736,7 +737,7 @@ CKEDITOR.lang['he'] =
 	colordialog :
 	{
 		title		: 'בחירת צבע',
-		options	:	'Color Options', // MISSING
+		options	:	'אפשרויות צבע',
 		highlight	: 'סימון',
 		selected	: 'בחירה',
 		clear		: 'ניקוי'

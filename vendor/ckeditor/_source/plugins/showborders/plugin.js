@@ -83,6 +83,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					if ( command.state != CKEDITOR.TRISTATE_DISABLED )
 						command.refresh( editor );
 				});
+
+			editor.on( 'removeFormatCleanup', function( evt )
+				{
+					var element = evt.data;
+					if ( editor.getCommand( 'showborders' ).state == CKEDITOR.TRISTATE_ON &&
+						element.is( 'table' ) && ( !element.hasAttribute( 'border' ) || parseInt( element.getAttribute( 'border' ), 10 ) <= 0 ) )
+							element.addClass( showBorderClassName );
+				});
 		},
 
 		afterInit : function( editor )
