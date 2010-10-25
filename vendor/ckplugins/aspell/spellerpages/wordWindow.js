@@ -158,9 +158,20 @@ function writeBody() {
 				// find the position of the current misspelled word,
 				// starting at the last misspelled word.
 				
-				// Make sure we only match words that aren't part of tags
-				var escapedWord = orig[i].replace(/([.*+?^${}()|[\]\/\\])/g, '\\$1');
-				var wordRegex = new RegExp('\\b' + escapedWord + '\\b(?!([^<]+)?>)', 'g');
+				var wordChars = 'A-Za-z\'\-';
+				
+				var wordRegex = new RegExp(
+					// Don't match if we're in the middle of a word
+					// (note: no lookbehind support in JS)
+					'([^'+wordChars+']|^)' +
+					// Escape RegEx characters in the target word
+					orig[i].replace(/([.*+?^${}()|[\]\/\\])/g, '\\$1') +
+					// Don't match if we're in the middle of a word
+					'(?!['+wordChars+'])' +
+					// Don't match if we're in an HTML tag
+					'(?!([^<]+)?>)',
+						'g');
+				
 				wordRegex.lastIndex = end_idx;
 				
 				// word not found? messed up!
