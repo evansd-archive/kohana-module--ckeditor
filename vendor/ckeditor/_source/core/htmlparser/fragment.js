@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
@@ -118,7 +118,7 @@ CKEDITOR.htmlParser.fragment = function()
 		{
 			target = target || currentNode || fragment;
 
-			// If the target is the fragment and this element can't go inside
+			// If the target is the fragment and this inline element can't go inside
 			// body (if fixForBody).
 			if ( fixForBody && !target.type )
 			{
@@ -129,9 +129,8 @@ CKEDITOR.htmlParser.fragment = function()
 					elementName = realElementName;
 				else
 					elementName =  element.name;
-				if ( elementName
-						&& !( elementName in CKEDITOR.dtd.$body )
-						&& !( elementName in CKEDITOR.dtd.$nonBodyContent )  )
+
+				if ( elementName && elementName in CKEDITOR.dtd.$inline )
 				{
 					var savedCurrent = currentNode;
 
@@ -392,6 +391,7 @@ CKEDITOR.htmlParser.fragment = function()
 
 		parser.onComment = function( comment )
 		{
+			sendPendingBRs();
 			checkPending();
 			currentNode.add( new CKEDITOR.htmlParser.comment( comment ) );
 		};
