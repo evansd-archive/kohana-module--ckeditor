@@ -32,11 +32,11 @@ CKEDITOR.on( 'instanceReady', function( ev )
 			});
 	});
 
-function toggleReadOnly( makeEditable )
+function toggleReadOnly( isReadOnly )
 {
 	// Change the read-only state of the editor.
 	// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#setReadOnly
-	editor.setReadOnly( makeEditable );
+	editor.setReadOnly( isReadOnly );
 }
 
 	//]]>
@@ -74,7 +74,7 @@ function toggleReadOnly( makeEditable )
 		</p>
 		<p>
 			<input id="readOnlyOn" onclick="toggleReadOnly();" type="button" value="Make it read-only" style="display:none" />
-			<input id="readOnlyOff" onclick="toggleReadOnly( true );" type="button" value="Make it editable again" style="display:none" />
+			<input id="readOnlyOff" onclick="toggleReadOnly( false );" type="button" value="Make it editable again" style="display:none" />
 		</p>
 	</form>
 	<div id="footer">
